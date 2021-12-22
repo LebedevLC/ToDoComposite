@@ -11,5 +11,4 @@ protocol TaskProtocol {
     
     var name: String { get set }
     var subTasks: [TaskProtocol] { get set }
-    
 }

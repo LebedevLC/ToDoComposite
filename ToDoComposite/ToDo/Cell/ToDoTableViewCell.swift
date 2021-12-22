@@ -20,8 +20,8 @@ class ToDoTableViewCell: UITableViewCell {
         nameLabel.text = nil
     }
     
-    func configure(mainTask: TaskProtocol) {
-        nameLabel.text = mainTask.name
+    func configure(name: String) {
+        nameLabel.text = name
         setGesture()
     }
     

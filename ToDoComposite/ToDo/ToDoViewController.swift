@@ -12,14 +12,16 @@ class ToDoViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var addButton: UIBarButtonItem!
-    
-    var currentTask: TaskProtocol? {
+   
+    private var allTasks: [TaskProtocol] = []
+    private var currentTask: TaskProtocol? {
         didSet {
             tableView.reloadData()
             backButton.isEnabled = currentTask?.name == "Root" ?  false : true
         }
     }
-    var lastTasks: [TaskProtocol] = []
+    
+    weak var myTextField: UITextField?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,21 +29,22 @@ class ToDoViewController: UIViewController {
         setupTableView()
     }
     
+    // MARK: - Buttons
+    
     @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
         showAlert()
     }
     
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
-        currentTask = lastTasks.removeLast()
+        currentTask = allTasks.removeLast()
     }
 }
 
 // MARK: - TableView
 
-extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
+extension ToDoViewController: UITableViewDataSource {
     
     func setupTableView() {
-        tableView.delegate = self
         tableView.dataSource = self
         tableView.register(
             UINib(nibName: ToDoTableViewCell.identifier, bundle: nil),
@@ -57,15 +60,14 @@ extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: ToDoTableViewCell.identifier,
                 for: indexPath) as? ToDoTableViewCell,
-            let subTask = currentTask?.subTasks[indexPath.row],
-            let currentTask = self.currentTask
+            let subTask = currentTask?.subTasks[indexPath.row]
         else {
             return UITableViewCell()
         }
-        let newMainTask = MainTask(name: subTask.name, subTasks: subTask.subTasks)
-        cell.configure(mainTask: newMainTask)
+        cell.configure(name: subTask.name)
         cell.cellTapped = { [weak self] in
-            self?.lastTasks.append(currentTask)
+            guard let currentTask = self?.currentTask else { return }
+            self?.allTasks.append(currentTask)
             self?.currentTask = subTask
         }
         return cell
@@ -77,20 +79,20 @@ extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
 extension ToDoViewController {
     private func showAlert() {
         let alertController = UIAlertController(
-            title: "Please write task",
+            title: "Please, enter some task",
             message: nil,
             preferredStyle: .alert)
-        alertController.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
-        })
+        alertController.addTextField { UITextField -> Void in
+        }
+//        alertController.addTextField(configurationHandler: {(_ textField: self.myTextField) -> Void in })
         let okAction = UIAlertAction(title: "Add", style: .default) { [weak self] action in
             guard
-                let self = self,
                 let name = alertController.textFields?[0].text,
                 name != ""
             else { return }
             let newSubTask = MainTask(name: name, subTasks: [])
-            self.currentTask?.subTasks.append(newSubTask)
-            self.tableView.reloadData()
+            self?.currentTask?.subTasks.append(newSubTask)
+            self?.tableView.reloadData()
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: {})
