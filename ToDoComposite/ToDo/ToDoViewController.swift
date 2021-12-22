@@ -21,8 +21,6 @@ class ToDoViewController: UIViewController {
         }
     }
     
-    weak var myTextField: UITextField?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         currentTask = MainTask(name: "Root", subTasks: [])
@@ -65,10 +63,10 @@ extension ToDoViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.configure(name: subTask.name)
-        cell.cellTapped = { [weak self] in
-            guard let currentTask = self?.currentTask else { return }
-            self?.allTasks.append(currentTask)
-            self?.currentTask = subTask
+        cell.cellTapped = { [unowned self] in
+            guard let currentTask = self.currentTask else { return }
+            self.allTasks.append(currentTask)
+            self.currentTask = subTask
         }
         return cell
     }
@@ -82,19 +80,18 @@ extension ToDoViewController {
             title: "Please, enter some task",
             message: nil,
             preferredStyle: .alert)
-        alertController.addTextField { UITextField -> Void in
-        }
-//        alertController.addTextField(configurationHandler: {(_ textField: self.myTextField) -> Void in })
-        let okAction = UIAlertAction(title: "Add", style: .default) { [weak self] action in
+        let okAction = UIAlertAction(title: "Add", style: .default) { [unowned self] _ in
             guard
                 let name = alertController.textFields?[0].text,
                 name != ""
             else { return }
             let newSubTask = MainTask(name: name, subTasks: [])
-            self?.currentTask?.subTasks.append(newSubTask)
-            self?.tableView.reloadData()
+            self.currentTask?.subTasks.append(newSubTask)
+            self.tableView.reloadData()
         }
         alertController.addAction(okAction)
-        present(alertController, animated: true, completion: {})
+        alertController.addTextField { UITextField -> Void in
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
 }
