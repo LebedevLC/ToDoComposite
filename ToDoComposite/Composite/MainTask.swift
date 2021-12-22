@@ -10,14 +10,14 @@ import Foundation
 class MainTask: TaskProtocol {
     
     var name: String
-    var subTask: [SubTask]
+    var subTasks: [TaskProtocol]
     
-    init(name: String, subTask: [SubTask]) {
+    init(name: String, subTasks: [TaskProtocol]) {
         self.name = name
-        self.subTask = subTask
+        self.subTasks = subTasks
     }
     
-    func addSubtask(subTask: SubTask) {
-        self.subTask.append(subTask)
+    func addSubtask(subTask: TaskProtocol) {
+        self.subTasks.append(subTask)
     }
 }

@@ -13,15 +13,17 @@ class ToDoViewController: UIViewController {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    private var currentTask: MainTask? {
+    var currentTask: TaskProtocol? {
         didSet {
-        tableView.reloadData()
+            tableView.reloadData()
+            backButton.isEnabled = currentTask?.name == "Root" ?  false : true
         }
     }
+    var lastTasks: [TaskProtocol] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentTask = MainTask(name: "Root", subTask: [])
+        currentTask = MainTask(name: "Root", subTasks: [])
         setupTableView()
     }
     
@@ -30,7 +32,7 @@ class ToDoViewController: UIViewController {
     }
     
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
-        currentTask = ToDoSingleton.shared.mainTask
+        currentTask = lastTasks.removeLast()
     }
 }
 
@@ -47,7 +49,7 @@ extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        currentTask?.subTask.count ?? 0
+        currentTask?.subTasks.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,15 +57,16 @@ extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: ToDoTableViewCell.identifier,
                 for: indexPath) as? ToDoTableViewCell,
-            let subTask = currentTask?.subTask[indexPath.row]
+            let subTask = currentTask?.subTasks[indexPath.row],
+            let currentTask = self.currentTask
         else {
             return UITableViewCell()
         }
-        let newMainTask = MainTask(name: subTask.name, subTask: subTask.subTask)
-        cell.configure(mainTask: newMainTask, subTask: subTask)
+        let newMainTask = MainTask(name: subTask.name, subTasks: subTask.subTasks)
+        cell.configure(mainTask: newMainTask)
         cell.cellTapped = { [weak self] in
-            ToDoSingleton.shared.mainTask = self?.currentTask
-            self?.currentTask = cell.mainTask
+            self?.lastTasks.append(currentTask)
+            self?.currentTask = subTask
         }
         return cell
     }
@@ -85,11 +88,8 @@ extension ToDoViewController {
                 let name = alertController.textFields?[0].text,
                 name != ""
             else { return }
-            guard let currentTask = self.currentTask
-            else {
-                debugPrint("No MainTask!")
-                return }
-            currentTask.addSubtask(subTask: SubTask(name: name, mainTask: currentTask))
+            let newSubTask = MainTask(name: name, subTasks: [])
+            self.currentTask?.subTasks.append(newSubTask)
             self.tableView.reloadData()
         }
         alertController.addAction(okAction)

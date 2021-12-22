@@ -10,6 +10,6 @@ import Foundation
 protocol TaskProtocol {
     
     var name: String { get set }
-    var subTask: [SubTask] { get set }
+    var subTasks: [TaskProtocol] { get set }
     
 }

@@ -16,10 +16,8 @@
 		46A6967827711E4B00B37B96 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6967727711E4A00B37B96 /* GradientView.swift */; };
 		46A6967C277122D700B37B96 /* TaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6967B277122D700B37B96 /* TaskProtocol.swift */; };
 		46A6967E2771242500B37B96 /* MainTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6967D2771242500B37B96 /* MainTask.swift */; };
-		46A696802771249F00B37B96 /* SubTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6967F2771249F00B37B96 /* SubTask.swift */; };
 		46A696852771281E00B37B96 /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A696832771281E00B37B96 /* ToDoTableViewCell.swift */; };
 		46A696862771281E00B37B96 /* ToDoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46A696842771281E00B37B96 /* ToDoTableViewCell.xib */; };
-		46A696892773450200B37B96 /* ToDoSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A696882773450200B37B96 /* ToDoSingleton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,10 +32,8 @@
 		46A6967727711E4A00B37B96 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		46A6967B277122D700B37B96 /* TaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProtocol.swift; sourceTree = "<group>"; };
 		46A6967D2771242500B37B96 /* MainTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTask.swift; sourceTree = "<group>"; };
-		46A6967F2771249F00B37B96 /* SubTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubTask.swift; sourceTree = "<group>"; };
 		46A696832771281E00B37B96 /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
 		46A696842771281E00B37B96 /* ToDoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoTableViewCell.xib; sourceTree = "<group>"; };
-		46A696882773450200B37B96 /* ToDoSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoSingleton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +66,6 @@
 		46A6965F27711CFA00B37B96 /* ToDoComposite */ = {
 			isa = PBXGroup;
 			children = (
-				46A69687277344F500B37B96 /* Singleton */,
 				46A6967A277122C800B37B96 /* Composite */,
 				46A69681277127ED00B37B96 /* ToDo */,
 				46A6967527711D4600B37B96 /* Storyboard */,
@@ -121,7 +116,6 @@
 			children = (
 				46A6967B277122D700B37B96 /* TaskProtocol.swift */,
 				46A6967D2771242500B37B96 /* MainTask.swift */,
-				46A6967F2771249F00B37B96 /* SubTask.swift */,
 			);
 			path = Composite;
 			sourceTree = "<group>";
@@ -142,14 +136,6 @@
 				46A696842771281E00B37B96 /* ToDoTableViewCell.xib */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		46A69687277344F500B37B96 /* Singleton */ = {
-			isa = PBXGroup;
-			children = (
-				46A696882773450200B37B96 /* ToDoSingleton.swift */,
-			);
-			path = Singleton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,10 +214,8 @@
 				46A6966527711CFA00B37B96 /* ToDoViewController.swift in Sources */,
 				46A6966127711CFA00B37B96 /* AppDelegate.swift in Sources */,
 				46A696852771281E00B37B96 /* ToDoTableViewCell.swift in Sources */,
-				46A696802771249F00B37B96 /* SubTask.swift in Sources */,
 				46A6967827711E4B00B37B96 /* GradientView.swift in Sources */,
 				46A6967E2771242500B37B96 /* MainTask.swift in Sources */,
-				46A696892773450200B37B96 /* ToDoSingleton.swift in Sources */,
 				46A6966327711CFA00B37B96 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

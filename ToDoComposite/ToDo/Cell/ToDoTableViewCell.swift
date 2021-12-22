@@ -13,7 +13,6 @@ class ToDoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     
-    var mainTask: MainTask?
     var cellTapped: (()-> Void)?
     
     override func prepareForReuse() {
@@ -21,9 +20,8 @@ class ToDoTableViewCell: UITableViewCell {
         nameLabel.text = nil
     }
     
-    func configure(mainTask: MainTask, subTask: SubTask) {
-        nameLabel.text = subTask.name
-        self.mainTask = mainTask
+    func configure(mainTask: TaskProtocol) {
+        nameLabel.text = mainTask.name
         setGesture()
     }
     
